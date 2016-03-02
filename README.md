@@ -70,23 +70,15 @@ Appsurfer.init(application, registrationId);
 ```
 > We do not store any reference to `application` parameter, so there is no possibility of cyclic reference. We just store the `ApplicationContext` which will be used for starting new activities.
 
-### Set User
-```java
-/**
- * Set User's email address and phone number
- *
- * @param email         user email address
- * @param phone         user phone number
- */
-Appsurfer.setUser(email, phone);
-```
-
 ## Launch AppSurfer's appviewer
 
 ```java
 AppSurferApp app = new AppSurferApp(packageName);
 app.addParam(key, value)
-AppSurfer.launch(app, new ApplicationLaunchStatusListener() {
+
+AppSurferLaunchRequest request = AppSurfer.launch(app);
+request.setUser(email, mobile)
+request.execute(new ApplicationLaunchStatusListener() {
     /**
      * Called when application launch is successful
      */
