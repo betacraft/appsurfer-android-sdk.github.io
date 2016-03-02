@@ -18,7 +18,7 @@ AppSurfer's Android SDK makes it easy for you to integrate AppSurfer into your A
 * And then add AppSurfer SDK as dependency.
 ```groovy
 dependencies {
-    compile "com.appsurfer.android:sdk:1.1.+"
+    compile "com.appsurfer.android:sdk:1.0.+"
 }
 ```
 __Important__ 
@@ -68,7 +68,7 @@ In AndroidManifest.xml of your application project add the following permission 
  */
 Appsurfer.init(application, registrationId);
 ```
-> We do not store any reference to ```application``` parameter, so there is no possibility of cyclic reference.
+> We do not store any reference to `application` parameter, so there is no possibility of cyclic reference. We just store the `ApplicationContext` which will be used for starting new activities.
 
 ### Set User
 ```java
