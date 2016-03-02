@@ -1,5 +1,7 @@
-## AppSurfer Android SDK ##
-This documentation helps in Integrating AppSurfer SDK with your Android project:
+# AppSurfer Android SDK
+
+AppSurfer's Android SDK makes it easy for you to integrate AppSurfer into your Android apps.
+
 
 ## Adding SDK to your project
 ### Gradle (Android Studio)
@@ -13,7 +15,7 @@ This documentation helps in Integrating AppSurfer SDK with your Android project:
         maven { url 'http://maven.appsurfer.com'}
     }
 ```
-* And then add Simpl SDK as dependency.
+* And then add AppSurfer SDK as dependency.
 ```groovy
 dependencies {
     compile "com.appsurfer.android:sdk:1.1.+"
@@ -39,7 +41,7 @@ Add following dependency and repository to your pom.xml
 
 <repositories>
     <repository>
-      <id>com.simpl</id>
+      <id>com.appsurfer</id>
       <url>http://maven.appsurfer.com</url>
     </repository>
  </repositories>
