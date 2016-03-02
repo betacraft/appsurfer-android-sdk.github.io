@@ -26,28 +26,6 @@ __Important__
 
 > Check your build.gradle for the project and module to check if you are on the build tool version >= 23.0.1. 
 
-### Maven
-Add following dependency and repository to your pom.xml
-```xml
-<project ...>
-<dependecies>
-    ...
-    <dependency>
-        <groupId>com.appsurfer.android</groupId>
-        <artifactId>sdk</artifactId>
-        <version>LATEST</version>
-    </dependency>
-</dependencies>
-
-<repositories>
-    <repository>
-      <id>com.appsurfer</id>
-      <url>http://maven.appsurfer.com</url>
-    </repository>
- </repositories>
-</project>
-```
-
 ## Update your AndroidManifest.xml
 In AndroidManifest.xml of your application project add the following permission (if it's already not there).
 ```xml
