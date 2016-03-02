@@ -70,7 +70,7 @@ Appsurfer.init(application, registrationId);
 ```
 > We do not store any reference to ```application``` parameter, so there is no possibility of cyclic reference.
 
-### Set User email and phone number
+### Set User
 ```java
 /**
  * Set User's email address and phone number
@@ -86,7 +86,7 @@ Appsurfer.setUser(email, phone);
 ```java
 AppSurferApp app = new AppSurferApp(packageName);
 app.addParam(key, value)
-AppSurfer.launch(app, new AppSurferAppLaunchListener() {
+AppSurfer.launch(app, new ApplicationLaunchStatusListener() {
     /**
      * Called when application launch is successful
      */
