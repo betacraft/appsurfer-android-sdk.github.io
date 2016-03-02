@@ -1,109 +1,103 @@
 ## AppSurfer Android SDK ##
 This documentation helps in Integrating AppSurfer SDK with your Android project:
 
-## Build Systems ##
-We support 3 build systems for Android.
+## Adding SDK to your project
+### Gradle (Android Studio)
+* Add AppSurfer maven repository to your applications build.gradle.
 
-1. JAR :
-If you use Ant as your build system for Android project then you just simply have to add AppSurferViewer.jar into your   libraries and you are good to go. As we do not use any resources inside the library (till version 0.1), so you need not to worry about adding the entire source code into your project.
+![alt Help](https://github.com/betacraft/appsurfer-android-sdk.github.io/blob/master/example/images/gradle_file.png)
 
-2. MAVEN: If you are using maven build system, then add following code to your pom.xml
-    2.1 Add AppSurfer repository into <repositories></repositories> tag
-```java
-    <repositories>
-        <id>AppSurfer viewer</id>
-        <url>http://www.appsurfer.com/appsurfer_viewer_mvn_repo/</url>
-    </repositories>
-```
-
-    2.2 Add AppSurferViewer dependency into the code.
-```java
-    <dependency>
-        <groupId>com.appsurfer</groupId>
-        <version>0.1.0</version>
-    	<packaging>jar</packaging>
-    	<artifactId>viewer-sdk</artifactId>
-    </dependency>
-```
-3. Gradle: Gradle can use [maven repo](http://www.gradle.org/docs/current/userguide/maven_plugin.html).
-
-## Using AppSurfer viewer ##
-
-### Permissions ###
-
-```java
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-```
-
-### Code ###
-
-1. First of all you need to initialize AppSurferViewer SDK in your Application or make sure that you perform init on AppSurferViewer before you start working with it.
-```java
-    package main.java.com.appsurfer.viewer.sample;
-
-    import android.app.Application;
-    import main.java.com.appsurfer.viewer.AppSurferViewerApplication;
-
-    public class SampleApplication extends Application {
-
-        @Override
-        public void onCreate() {
-            super.onCreate();
-            AppSurferViewerApplication.init(getApplicationContext());
-        }
-
-        @Override
-        public void onTerminate() {
-            super.onTerminate();
-        }
+```groovy
+    repositories {
+        ...
+        maven { url 'http://maven.appsurfer.com'}
     }
 ```
-
-2. You can directly use replace or add for AppSurferViewerFragment with fragment manager.
-```java
-     // 1 is app id
-     Fragment fragment = AppSurferViewerApplication.getAppSurferViewerFragment(1);
-     FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-     t.replace(R.id.main_layout, fragment);
-     t.commit();
+* And then add Simpl SDK as dependency.
+```groovy
+dependencies {
+    compile "com.appsurfer.android:sdk:1.1.+"
+}
 ```
-3. AppSurferViewer fragment supports callbacks so that you can handle various events.
-```java
-    viewerFragment.setAppSurferSessionEventListener(new AppSurferSessionEventListener() {
-            @Override
-            public void onAppSurferSessionCloseClickedEvent() {               
-            }
+__Important__ 
+> We are using Android Build Tool version : 23.0.1, Min SDK Version : 16, Target SDK version 23 and Compile SDK version 23. 
 
-            @Override
-            public void onAppSurferSessionInstallClickedEvent() {              
-            }
+> Check your build.gradle for the project and module to check if you are on the build tool version >= 23.0.1. 
 
-            @Override
-            public void onAppSurferSessionStartedEvent() {
-            }
+### Maven
+Add following dependency and repository to your pom.xml
+```xml
+<project ...>
+<dependecies>
+    ...
+    <dependency>
+        <groupId>com.appsurfer.android</groupId>
+        <artifactId>sdk</artifactId>
+        <version>LATEST</version>
+    </dependency>
+</dependencies>
 
-            @Override
-            public void onAppSurferSessionConnectedEvent() {                
-            }
-
-            @Override
-            public void onAppSurferSessionTimeoutOutEvent() {         
-            }
-
-            @Override
-            public void onAppSurferSessionClosedEvent() {               
-            }
-
-            @Override
-            public void onAppSurferSessionExceptionEvent(main.java.com.appsurfer.viewer.exceptions.AppSurferException exception)         
-            {
-            }
-        });
+<repositories>
+    <repository>
+      <id>com.simpl</id>
+      <url>http://maven.appsurfer.com</url>
+    </repository>
+ </repositories>
+</project>
 ```
+
+## Update your AndroidManifest.xml
+In AndroidManifest.xml of your application project add the following permission (if it's already not there).
+```xml
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<!-- Required for application that uses location -->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+```
+
+## Initialization
+```java
+/**
+ * For initializing AppSurfer SDK
+ *
+ * @param application       Current {@link Application} instance
+ * @param registrationId    registration id
+ */
+Appsurfer.init(application, registrationId);
+```
+> We do not store any reference to ```application``` parameter, so there is no possibility of cyclic reference.
+
+### Set User email and phone number
+```java
+/**
+ * Set User's email address and phone number
+ *
+ * @param email         user email address
+ * @param phone         user phone number
+ */
+Appsurfer.setUser(email, phone);
+```
+
+## Launch AppSurfer's appviewer
+
+```java
+AppSurferApp app = new AppSurferApp(packageName);
+app.addParam(key, value)
+AppSurfer.launch(app, new AppSurferAppLaunchListener() {
+    /**
+     * Called when application launch is successful
+     */
+    void onSuccess(){
+    }
+    
+    /**
+     * Called when application launch is unsuccessful
+     *
+     * @param throwable reason of the exception. Use throwable.getMessage() to show user readable error
+     */
+    void onError(final Throwable throwable){
+    }
+});
+```
+
