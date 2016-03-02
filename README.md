@@ -76,9 +76,9 @@ Appsurfer.init(application, registrationId);
 AppSurferApp app = new AppSurferApp(packageName);
 app.addParam(key, value)
 
-AppSurferLaunchRequest request = AppSurfer.launch(app);
+ASLaunchRequest request = AppSurfer.launch(app);
 request.setUser(email, mobile)
-request.execute(new ApplicationLaunchStatusListener() {
+request.execute(new ASLaunchStatusListener() {
     /**
      * Called when application launch is successful
      */
